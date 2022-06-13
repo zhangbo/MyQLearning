@@ -6,18 +6,18 @@ if(window.WebSocket) {
 
 var ws;
 window.onload = function() {
-  ws = new WebSocket("ws://127.0.0.1:8001");
-  ws.onmessage = function(evt){ console.log(evt.data); };
-  ws.onopen = function(evt) {
-    console.log("WebSocket open");
-  };
-  ws.onclose = function(evt) {
-    console.log("WebSocket close");
-  };
+  // ws = new WebSocket("ws://127.0.0.1:8001");
+  // ws.onmessage = function(evt){ console.log(evt.data); };
+  // ws.onopen = function(evt) {
+  //   console.log("WebSocket open");
+  // };
+  // ws.onclose = function(evt) {
+  //   console.log("WebSocket close");
+  // };
 }
-window.onclose=function(){
-  ws.close();
-}
+// window.onclose=function(){
+//   ws.close();
+// }
 
 var keyState = {};
 window.addEventListener('keydown',function(e){
@@ -82,6 +82,7 @@ function draw(){
         sleep(1000).then(() => {
             player.posX = startPositionX;
             player.posY = startPositionY;
+            resetAllDots();
             runOnce = false;
         });
     }
@@ -110,21 +111,22 @@ function draw(){
 
         if(checkForWallCollisions(player.posX + player.posXC, player.posY)){
             if (player.posXC != 0) {
-                console.log(player.posX + player.posXC, player.posY);
-                ws.send((player.posX + player.posXC) + "," + player.posY);
+                // console.log(player.posX + player.posXC, player.posY);
+                // ws.send((player.posX + player.posXC) + "," + player.posY);
             }
             player.movePlayerX();
         }
         if(checkForWallCollisions(player.posX, player.posY + player.posYC)){
             if (player.posYC != 0) {
-                console.log(player.posX, player.posY + player.posYC);
-                ws.send(player.posX + "," + (player.posY + player.posYC));
+                // console.log(player.posX, player.posY + player.posYC);
+                // ws.send(player.posX + "," + (player.posY + player.posYC));
             }
             player.movePlayerY();
         }
-    }else{
+    } else {
         player.posX = startPositionX;
         player.posY = startPositionY;
+        resetAllDots();
     }
 
     rectMode("center");
@@ -241,6 +243,12 @@ function checkForWallCollisions(tempX, tempY){
     }
 
     return true;
+}
+
+function resetAllDots() {
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].reset();
+    }
 }
 
 function sleep(time) {
