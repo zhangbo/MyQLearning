@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(arr, posX, posY, iteration, destination){
+    constructor(arr, posX, posY, iteration, destination) {
         this.arr = arr;
         this.posX = posX;
         this.posY = posY;
@@ -13,14 +13,14 @@ class Enemy {
 
     enemyMovement() {
         let num = this.destination[0] - this.posX;
-        if(num != 0) {
-            if(num > 0) {
+        if (num != 0) {
+            if (num > 0) {
                 this.posX += 5;
             } else {
                 this.posX -= 5;
             }
         } else {
-            if(this.iteration + 1 < this.arr.length) {
+            if (this.iteration + 1 < this.arr.length) {
                 this.iteration += 1;
                 this.destination = this.arr[this.iteration];
             } else {

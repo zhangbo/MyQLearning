@@ -10,12 +10,11 @@ class Brain {
 		for (var i = 0; i < size; i++) {
 			this.directions[i] = this.getRandomDirection();
 		}
-		console.log(this.directions);
 	}
 
 	getRandomDirection() {
 		var number = Math.floor(Math.random() * 9);
-		switch(number) {
+		switch (number) {
 			case 0:
 				return createVector(0, 2);
 			case 1:
@@ -37,14 +36,6 @@ class Brain {
 		}
 	}
 
-	clone() {
-	    var clone = new Brain(this.directions.length);
-	    for (var i = 0; i < this.directions.length; i++) {
-	    	clone.directions[i] = this.directions[i].copy();
-	    }
-		return clone;
-	}
-
 	mutate(died, deathStep) {
 		for (var i = 0; i < this.directions.length; i++) {
 			var rand = Math.random(1);
@@ -61,5 +52,13 @@ class Brain {
 		for (var i = 0; i < 5; i++) {
 			this.directions.push(this.getRandomDirection());
 		}
+	}
+
+	clone() {
+		var clone = new Brain(this.directions.length);
+		for (var i = 0; i < this.directions.length; i++) {
+			clone.directions[i] = this.directions[i].copy();
+		}
+		return clone;
 	}
 }
