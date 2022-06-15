@@ -11,7 +11,9 @@ class Player {
         this.isHuman = true;
         this.reachedGoal = false;
         this.fitness = 0;
-        this.brain = new Brain(100);
+        this.deathByDot = false;
+        this.deathAtStep = 0;
+        this.brain = new Brain(10);
     }
 
     movePlayerX() {
@@ -22,7 +24,9 @@ class Player {
                 this.alive = false;
             }
         }
-        this.posX += this.posXC;
+        if (checkForWallCollisions(this.posX + this.posXC, this.posY)) {
+            this.posX += this.posXC;        
+        }
         this.posXC = 0;
     }
 
@@ -34,7 +38,9 @@ class Player {
                 this.alive = false;
             }
         }
-        this.posY += this.posYC
+        if (checkForWallCollisions(this.posX, this.posY + this.posYC)) {
+             this.posY += this.posYC;   
+        }
         this.posYC = 0;
     }
 
@@ -55,13 +61,14 @@ class Player {
     }
 
     update() {
-        if (this.alive || !this.reachedGoal) {
-            if (checkForWallCollisions(this.posX + this.posXC, this.posY)) {
-                this.movePlayerX();
-            }
-            if (checkForWallCollisions(this.posX, this.posY + this.posYC)) {
-                this.movePlayerY();
-            }
+        if (!checkForEnemyCollisions(this)) {
+            this.alive = false;
+            this.deathByDot = true;
+            this.deathAtStep = this.brain.step;
+        }
+        if (this.alive && !this.reachedGoal) {
+            this.movePlayerX();
+            this.movePlayerY();
             this.brain.step++;
         }
     }
@@ -69,6 +76,8 @@ class Player {
     clone() {
         var p = new Player(this.posX, this.posXC, this.prevX, this.posY, this.posYC, this.prevY, this.alive);
         p.brain = this.brain.clone();
+        p.deathAtStep = this.deathAtStep;
+        p.deathByDot = this.deathByDot;
         return p;
     }
 }

@@ -39,7 +39,7 @@ class Brain {
 	mutate(died, deathStep) {
 		for (var i = 0; i < this.directions.length; i++) {
 			var rand = Math.random(1);
-			if (died && i > deathStep - 10) {
+			if (died && i > deathStep - 10) { // 这里的10和player构造方法里面初始化brain的10对应
 				rand = Math.random(0.2);
 			}
 			if (rand < 0.01) {

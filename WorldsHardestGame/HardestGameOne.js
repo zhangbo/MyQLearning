@@ -36,6 +36,7 @@ var img = new Image();
 let startPositionX = 130;
 let startPositionY = 200;
 let runOnce = false;
+let increaseMovesGens = 5;
 
 function setup() {
     createCanvas(1100, 500);
@@ -93,8 +94,11 @@ function draw() {
     if (player === undefined) { // AI
         population.update();
         population.show();
+        if (population.gen % increaseMovesGens == 0) {
+            population.increaseMoves();
+        }
     } else {
-        player.alive = checkForEnemyCollisions();
+        player.alive = checkForEnemyCollisions(player);
         if (checkForWinCondition() && !runOnce) {
             runOnce = true;
             sleep(1000).then(() => {
@@ -204,12 +208,12 @@ function drawPlayer() {
     rectMode(CORNER);
 }
 
-function checkForEnemyCollisions() {
+function checkForEnemyCollisions(p) {
     for (let i = 0; i < 4; i++) {
-        DeltaX = dots[i].posX - Math.max(player.posX, Math.min(dots[i].posX, player.posX - 30));
-        DeltaY = dots[i].posY - Math.max(player.posY, Math.min(dots[i].posY, player.posY - 30));
+        DeltaX = dots[i].posX - Math.max(p.posX, Math.min(dots[i].posX, p.posX - 30));
+        DeltaY = dots[i].posY - Math.max(p.posY, Math.min(dots[i].posY, p.posY - 30));
         if ((DeltaX * DeltaX + DeltaY * DeltaY) < 600) {
-            console.log("Player X pos: " + player.posX + " Player Y position: " + player.posY + " Enemy X pos:" + dots[i].posX + " Enemy Y pos: " + dots[i].posY);
+            console.log("Player X pos: " + p.posX + " Player Y position: " + p.posY + " Enemy X pos:" + dots[i].posX + " Enemy Y pos: " + dots[i].posY);
             return false;
         }
     }

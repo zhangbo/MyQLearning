@@ -27,6 +27,16 @@ class Population {
 		}
 	}
 
+	mutateAllPlayers() {
+		for (var i = 1; i < this.players.length; i++) {
+			this.players[i].brain.mutate(this.players[i].deathByDot, this.players[i].deathAtStep);
+			this.players[i].deathByDot = false;
+			this.players[i].gen = this.gen;
+		}
+		this.players[0].deathByDot = false;
+    	this.players[0].gen = this.gen;
+	}
+
 	increaseMoves() {
 		if (this.players[0].brain.directions.length < 120 && !this.solutionFound) {
 			for (var i = 0; i < this.players.length; i++) {
