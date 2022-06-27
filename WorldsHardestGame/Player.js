@@ -56,7 +56,15 @@ class Player {
         if (this.reachedGoal) {
             this.fitness = 1.0 / 16.0 + 10000.0 / (this.brain.step * this.brain.step);
         } else { //if the dot didn't reach the goal then the fitness is based on how close it is to the goal
-
+            var estimatedDistance = 0.0;//the estimated distance of the path from the player to the goal
+    for (var i = this.nodes.length-1; i>=0; i--) {
+      if (!this.nodes[i].reached) {
+        estimatedDistance = this.nodes[i].distToFinish;
+        estimatedDistance += dist(this.pos.x, this.pos.y, this.nodes[i].pos.x, this.nodes[i].pos.y);
+      }
+    }
+    if (this.deathByDot) {
+      estimatedDistance *= 0.9;
         }
     }
 

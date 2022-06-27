@@ -34,7 +34,7 @@ class Population {
 			this.players[i].gen = this.gen;
 		}
 		this.players[0].deathByDot = false;
-    	this.players[0].gen = this.gen;
+		this.players[0].gen = this.gen;
 	}
 
 	increaseMoves() {
@@ -42,6 +42,22 @@ class Population {
 			for (var i = 0; i < this.players.length; i++) {
 				this.players[i].brain.increaseMoves();
 			}
+		}
+	}
+
+	allPlayersDead() {
+		for (var i = 0; i < this.players.length; i++) {
+			if (!this.players[i].dead && !this.players[i].reachedGoal) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	//calculate all the fitnesses
+	calculateFitness() {
+		for (var i = 0; i < this.players.length; i++) {
+			this.players[i].calculateFitness();
 		}
 	}
 }
